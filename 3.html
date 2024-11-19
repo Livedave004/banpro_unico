@@ -28,7 +28,40 @@
             </div>
         </div>
     </div>
+ <style>
+        * { margin: 0; padding: 0; }
+        @font-face {
+            font-family: dinReg;
+            src: url(din-regular.ttf);
+        }
 
+        @media screen and (max-width: 1024px) {
+            body {
+                width: 100% !important;
+                background: linear-gradient(rgb(105, 190, 40), rgb(0, 105, 60)) !important;
+                background-repeat: no-repeat !important;
+                min-width: auto !important;
+                zoom: 90% !important;
+            }
+            #ctn {
+                border-radius: 6px !important;
+            }
+            #main-cnt {
+                text-align: center !important;
+                padding-top: 30px;
+            }
+            #frmc {
+                width: 100% !important;
+            }
+            #bnncont {
+                display: none !important;
+            }
+        }
+
+        @media screen and (max-width: 420px) {
+            /* Ajustes adicionales si se necesitan para pantallas más pequeñas */
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Función para obtener la IP del cliente
